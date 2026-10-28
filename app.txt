@@ -20,6 +20,18 @@ git push origin main
 
 Verify the image on Docker Hub
 
+
+Dooker:
+docker build -t campus-app:v1 .
+
+docker images
+
+docker run -d --name campus-container -p 5001:5000 campus-app:v1
+
+docker ps
+
+docker logs campus-container
+
 Kubernetes:
 
 kubectl version --client
