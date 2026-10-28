@@ -1,8 +1,4 @@
-==================================================
-STAGE 1: RUN AND TEST THE PYTHON APPLICATION
-==================================================
-
-cd C:\Users\Asus\Downloads\project
+ Run and test the Python application locally
 
 python -m pip install -r requirements.txt
 
@@ -10,200 +6,39 @@ python -m pytest -v
 
 python app.py
 
-Open in browser:
-http://localhost:5000
+Open http://localhost:5000
 
-Press Ctrl+C to stop the application.
+Push the source code to GitHub
 
+///
 
-==================================================
-STAGE 2: BUILD AND RUN THE DOCKER IMAGE
-==================================================
+git add .
 
-Build Version 1:
+git commit -m "Update application and CI/CD configuration"
 
-docker build -t campus-app:v1 .
+git push origin main
 
-If you encounter the earlier Flask installation problem:
+Verify the image on Docker Hub
 
-docker build --no-cache -t campus-app:v1 .
-
-Check images:
-
-docker images
-
-Run the container:
-
-docker run -d --name campus-container -p 5001:5000 campus-app:v1
-
-Check running containers:
-
-docker ps
-
-Check logs:
-
-docker logs campus-container
-
-Open in browser:
-http://localhost:5001
-
-Stop and remove the container after testing:
-
-docker stop campus-container
-
-docker rm campus-container
-
-
-==================================================
-STAGE 3: PUSH VERSION 1 TO DOCKER HUB
-==================================================
-
-Log in:
-
-docker login
-
-Tag the image:
-
-docker tag campus-app:v1 koushick25/koureesh:v1
-
-Push the image:
-
-docker push koushick25/koureesh:v1
-
-
-==================================================
-STAGE 4: CHECK KUBERNETES
-==================================================
+Kubernetes:
 
 kubectl version --client
 
 kubectl config current-context
 
 kubectl get nodes
-
-Make sure the node status is Ready.
-
-
-==================================================
-STAGE 5: APPLY THE EXISTING KUBERNETES YAML
-==================================================
-
-Make sure your existing file is saved here:
-
-C:\Users\Asus\Downloads\project\k8s\deployment.yaml
-
-Navigate to the project folder:
-
-cd C:\Users\Asus\Downloads\project
-
-Apply the YAML:
-
 kubectl apply -f .\k8s\deployment.yaml
-
-Check deployments:
-
-kubectl get deployments
-
-Check pods:
-
-kubectl get pods
-
-Check services:
-
-kubectl get services
-
-Check application logs:
-
-kubectl logs deployment/campus-deployment
-
-
-==================================================
-STAGE 6: TEST VERSION 1 IN KUBERNETES
-==================================================
-
-Run port-forwarding:
-
-kubectl port-forward service/campus-service 5002:5000
-
-Keep the terminal open.
-
-Open in browser:
-http://localhost:5002
-
-Health endpoint:
-http://localhost:5002/health
-
-Press Ctrl+C to stop port-forwarding.
-
-
-==================================================
-STAGE 7: MODIFY THE APPLICATION FOR VERSION 2
-==================================================
-
-Open app.py.
-
-Change the home route response to:
-
-return "Hello Students! Version 2 is running!"
-
-Save app.py.
-
-Build Version 2:
-
-docker build -t campus-app:v2 .
-
-Check images:
-
-docker images
-
-
-==================================================
-STAGE 8: PUSH VERSION 2 TO DOCKER HUB
-==================================================
-
-Tag Version 2:
-
-docker tag campus-app:v2 koushick25/koureesh:v2
-
-Push Version 2:
-
-docker push koushick25/koureesh:v2
-
-
-==================================================
-STAGE 9: UPDATE KUBERNETES TO VERSION 2
-==================================================
-
-Update the image using the container name from your YAML:
-
-kubectl set image deployment/campus-deployment campus-container1=koushick25/koureesh:v2
-
-Check rollout status:
 
 kubectl rollout status deployment/campus-deployment
 
-Check pods:
+kubectl get deployments
 
 kubectl get pods
 
-Check Deployment details:
+kubectl get services
 
-kubectl describe deployment campus-deployment
-
-
-==================================================
-STAGE 10: TEST VERSION 2
-==================================================
-
-Run port-forwarding:
+kubectl logs deployment/campus-deployment
 
 kubectl port-forward service/campus-service 5002:5000
 
-Keep the terminal open.
-
-Open in browser:
-http://localhost:5002
-
-Expected output:
-
-Hello Students! Version 2 is running!
+open http://localhost:5002
