@@ -32,6 +32,8 @@ docker ps
 
 docker logs campus-container
 
+http://localhost:5001
+
 Kubernetes:
 
 kubectl version --client
