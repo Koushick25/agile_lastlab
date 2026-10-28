@@ -34,6 +34,13 @@ docker logs campus-container
 
 http://localhost:5001
 
+normal docker push :
+docker login
+
+docker tag campus-app:v1 koushick25/koureesh:v1
+
+docker push koushick25/koureesh:v1
+
 Kubernetes:
 
 kubectl version --client
